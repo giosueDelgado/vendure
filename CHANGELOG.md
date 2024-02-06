@@ -1,3 +1,40 @@
+## <small>2.1.6 (2024-01-16)</small>
+
+
+#### Fixes
+
+* **admin-ui** Fix auto-rename of variants when product is renamed ([65aced6](https://github.com/vendure-ecommerce/vendure/commit/65aced6)), closes [#2579](https://github.com/vendure-ecommerce/vendure/issues/2579)
+* **admin-ui** Fix bug in cancelling order lines ([913e6d8](https://github.com/vendure-ecommerce/vendure/commit/913e6d8)), closes [#2608](https://github.com/vendure-ecommerce/vendure/issues/2608)
+* **admin-ui** Fix long transactionId layout issue (#2595) ([7603ea4](https://github.com/vendure-ecommerce/vendure/commit/7603ea4)), closes [#2595](https://github.com/vendure-ecommerce/vendure/issues/2595)
+* **admin-ui** Fix route config for settings tabs ([4e7bbb1](https://github.com/vendure-ecommerce/vendure/commit/4e7bbb1)), closes [#2623](https://github.com/vendure-ecommerce/vendure/issues/2623)
+* **admin-ui** Improve collection breadcrumb styling (#2589) ([f5acf0f](https://github.com/vendure-ecommerce/vendure/commit/f5acf0f)), closes [#2589](https://github.com/vendure-ecommerce/vendure/issues/2589)
+* **admin-ui** Improve tabs hover style (#2584) ([fa7152c](https://github.com/vendure-ecommerce/vendure/commit/fa7152c)), closes [#2584](https://github.com/vendure-ecommerce/vendure/issues/2584)
+* **admin-ui** Login page dark mode color fix (#2582) ([c680486](https://github.com/vendure-ecommerce/vendure/commit/c680486)), closes [#2582](https://github.com/vendure-ecommerce/vendure/issues/2582)
+* **core** Admin can only read Roles at or below their permission level ([fc5d981](https://github.com/vendure-ecommerce/vendure/commit/fc5d981)), closes [#2492](https://github.com/vendure-ecommerce/vendure/issues/2492)
+* **core** Fix error when using HttpHealthCheckStrategy ([9ab2e4d](https://github.com/vendure-ecommerce/vendure/commit/9ab2e4d)), closes [#2617](https://github.com/vendure-ecommerce/vendure/issues/2617)
+* **core** Fix hydration error edge-case when removing order line ([6fca656](https://github.com/vendure-ecommerce/vendure/commit/6fca656)), closes [#2548](https://github.com/vendure-ecommerce/vendure/issues/2548)
+* **core** Fix permissions error on creation of superadmin ([3e4e31c](https://github.com/vendure-ecommerce/vendure/commit/3e4e31c)), closes [#2492](https://github.com/vendure-ecommerce/vendure/issues/2492) [#2478](https://github.com/vendure-ecommerce/vendure/issues/2478)
+* **core** Loosen typing of custom field relation inverseSide function ([a9696c9](https://github.com/vendure-ecommerce/vendure/commit/a9696c9))
+* **core** Remove inapplicable shipping methods when updating an order ([f04b033](https://github.com/vendure-ecommerce/vendure/commit/f04b033)), closes [#2548](https://github.com/vendure-ecommerce/vendure/issues/2548) [#2540](https://github.com/vendure-ecommerce/vendure/issues/2540)
+* **create** Add a slash at the end of assetUrl to avoid being ignored (#2605) ([b99dfbc](https://github.com/vendure-ecommerce/vendure/commit/b99dfbc)), closes [#2605](https://github.com/vendure-ecommerce/vendure/issues/2605)
+
+## <small>2.1.5 (2023-12-14)</small>
+
+
+#### Fixes
+
+* **admin-ui** Fix display of asset detail focal point buttons ([1b58aa7](https://github.com/vendure-ecommerce/vendure/commit/1b58aa7))
+* **core** Export VendureEntityEvent abstract class from index (#2556) ([c46cf74](https://github.com/vendure-ecommerce/vendure/commit/c46cf74)), closes [#2556](https://github.com/vendure-ecommerce/vendure/issues/2556)
+* **core** Fix bug when instantiating entity from object with getter ([d09452e](https://github.com/vendure-ecommerce/vendure/commit/d09452e)), closes [#2574](https://github.com/vendure-ecommerce/vendure/issues/2574)
+* **core** Fix loading multiple customField relations (#2566) ([99e04d1](https://github.com/vendure-ecommerce/vendure/commit/99e04d1)), closes [#2566](https://github.com/vendure-ecommerce/vendure/issues/2566) [#2555](https://github.com/vendure-ecommerce/vendure/issues/2555)
+* **core** OrderLineEvent includes ID of deleted OrderLine ([ee04032](https://github.com/vendure-ecommerce/vendure/commit/ee04032)), closes [#2574](https://github.com/vendure-ecommerce/vendure/issues/2574)
+* **core** Remove redundant constraint when creating allocations ([52c0841](https://github.com/vendure-ecommerce/vendure/commit/52c0841)), closes [#2563](https://github.com/vendure-ecommerce/vendure/issues/2563)
+* **core** Send the correct amount to `refundOrder` (#2559) ([b5a265f](https://github.com/vendure-ecommerce/vendure/commit/b5a265f)), closes [#2559](https://github.com/vendure-ecommerce/vendure/issues/2559)
+* **elasticsearch-plugin** Fix type to allow the promise on custom mapping definition (#2562) ([8e9ee07](https://github.com/vendure-ecommerce/vendure/commit/8e9ee07)), closes [#2562](https://github.com/vendure-ecommerce/vendure/issues/2562)
+* **payments-plugin** Fix Mollie channel awareness (#2575) ([cc4826d](https://github.com/vendure-ecommerce/vendure/commit/cc4826d)), closes [#2575](https://github.com/vendure-ecommerce/vendure/issues/2575)
+* **payments-plugin** Mollie - ignore completed state to prevent unneccesary error throwing (#2569) ([ed80c68](https://github.com/vendure-ecommerce/vendure/commit/ed80c68)), closes [#2569](https://github.com/vendure-ecommerce/vendure/issues/2569)
+* **stellate-plugin** Add stellate plugin ([2254576](https://github.com/vendure-ecommerce/vendure/commit/2254576))
+
 ## <small>2.1.4 (2023-11-24)</small>
 
 

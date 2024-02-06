@@ -33,7 +33,6 @@ import { amountToCents, getLocale, toAmount, toMollieAddress, toMollieOrderLines
 import { MolliePluginOptions } from './mollie.plugin';
 
 interface OrderStatusInput {
-    channelToken: string;
     paymentMethodId: string;
     orderId: string;
 }
@@ -184,7 +183,7 @@ export class MollieService {
             orderInput.method = molliePaymentMethodCode as MollieClientMethod;
         }
         const mollieOrder = await mollieClient.orders.create(orderInput);
-        Logger.info(`Created Mollie order ${mollieOrder.id} for order ${order.code}`);
+        Logger.info(`Created Mollie order ${mollieOrder.id} for order ${order.code}`, loggerCtx);
         const url = mollieOrder.getCheckoutUrl();
         if (!url) {
             throw Error('Unable to getCheckoutUrl() from Mollie order');
@@ -199,10 +198,10 @@ export class MollieService {
      */
     async handleMollieStatusUpdate(
         ctx: RequestContext,
-        { channelToken, paymentMethodId, orderId }: OrderStatusInput,
+        { paymentMethodId, orderId }: OrderStatusInput,
     ): Promise<void> {
         Logger.info(
-            `Received status update for channel ${channelToken} for Mollie order ${orderId}`,
+            `Received status update for channel ${ctx.channel.token} for Mollie order ${orderId}`,
             loggerCtx,
         );
         const paymentMethod = await this.paymentMethodService.findOne(ctx, paymentMethodId);
@@ -213,12 +212,12 @@ export class MollieService {
         const apiKey = paymentMethod.handler.args.find(a => a.name === 'apiKey')?.value;
         const autoCapture = paymentMethod.handler.args.find(a => a.name === 'autoCapture')?.value === 'true';
         if (!apiKey) {
-            throw Error(`No apiKey found for payment ${paymentMethod.id} for channel ${channelToken}`);
+            throw Error(`No apiKey found for payment ${paymentMethod.id} for channel ${ctx.channel.token}`);
         }
         const client = createMollieClient({ apiKey });
         const mollieOrder = await client.orders.get(orderId);
         Logger.info(
-            `Processing status '${mollieOrder.status}' for order ${mollieOrder.orderNumber} for channel ${channelToken} for Mollie order ${orderId}`,
+            `Processing status '${mollieOrder.status}' for order ${mollieOrder.orderNumber} for channel ${ctx.channel.token} for Mollie order ${orderId}`,
             loggerCtx,
         );
         let order = await this.orderService.findOneByCode(ctx, mollieOrder.orderNumber, ['payments']);
@@ -227,9 +226,9 @@ export class MollieService {
                 `Unable to find order ${mollieOrder.orderNumber}, unable to process Mollie order ${mollieOrder.id}`,
             );
         }
-        if (order.state === 'PaymentSettled') {
+        if (order.state === 'PaymentSettled' || order.state === 'Shipped' || order.state === 'Delivered') {
             Logger.info(
-                `Order ${order.code} is already 'PaymentSettled', no need for handling Mollie status '${mollieOrder.status}'`,
+                `Order ${order.code} is already '${order.state}', no need for handling Mollie status '${mollieOrder.status}'`,
                 loggerCtx,
             );
             return;
@@ -254,6 +253,11 @@ export class MollieService {
         }
         if (order.state === 'PaymentAuthorized' && mollieOrder.status === OrderStatus.completed) {
             return this.settleExistingPayment(ctx, order, mollieOrder.id);
+        }
+        if (autoCapture && mollieOrder.status === OrderStatus.completed) {
+            // When autocapture is enabled, we should not handle the completed status from Mollie,
+            // because the order will be transitioned to PaymentSettled during auto capture
+            return;
         }
         // Any other combination of Mollie status and Vendure status indicates something is wrong.
         throw Error(
